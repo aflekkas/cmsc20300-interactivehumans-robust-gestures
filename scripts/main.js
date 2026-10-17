@@ -1,3 +1,5 @@
+import { tossUpdate } from "./toss";
+
 const startButton = document.getElementById("start");
 const statusText = document.getElementById("status"); // temporary status text until UI is added by Maria
 
@@ -18,7 +20,7 @@ async function getPermissions() {
 }
 
 function handleMotion(event) {
-  const acceleration = event.accelerationIncludingGravity; // 9.8 rest, 0 free fall
+  const acceleration = event.accelerationIncludingGravity; // (z: 9.8) rest, (z: 0) free fall
 
   if (!acceleration) {
     statusText.textContent = "No acceleration data detected, check device";
@@ -28,8 +30,9 @@ function handleMotion(event) {
   const {x, y, z} = acceleration; // seperate acceleration on x, y, and z axis
 
   statusText.textContent = `Acceleration: (x:${x}, y:${y}, z:${z})`
-  // Tigo, flick update function goes here
-  // adding toss update function now
+
+  // flickUpdate(idk) <- Tigo, func goes here
+  tossUpdate(z);
 }
 
 startButton.addEventListener("click", async () => {
