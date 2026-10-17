@@ -26,9 +26,13 @@ function handleMotion(event) {
   }
 
   const {x, y, z} = acceleration; // seperate acceleration on x, y, and z axis
-  
+
+  // Tigo, flick update function goes here
+  // adding toss update function now
 }
 
 startButton.addEventListener("click", async () => {
   if (!(await getPermissions())) return; // if permissions are not granted, exit
+
+  window.addEventListener("devicemotion", handleMotion); // start listening for motion
 });
