@@ -1,16 +1,21 @@
 const startButton = document.getElementById("start");
-const statsText = document.getElementById("stats"); // temporary text to show measurements working (TBD if removed)
+const statusText = document.getElementById("status"); // temporary status text until UI is added by Maria
 
-function getPerms() {
-    if (typeof DeviceMotionEvent.requestPermission === 'function') {
-        const result = await DeviceMotionEvent.requestPermission();
+// return bool based on if motion permissions are accepted by user
+async function getPermissions() {
+  if (typeof DeviceMotionEvent.requestPermission === "function") {
+    const result = await DeviceMotionEvent.requestPermission();
 
-        if (result !== 'granted') {
-            
-        }
+    if (result !== "granted") {
+      statusText.textContent = "Permission denied";
+      return false;
     }
+
+    statusText.textContent = "Permission granted";
+    return true;
+  }
 }
 
-startButton.addEventListener('click', async () => { // async is needed for device popup
-    
-})
+startButton.addEventListener("click", async () => {
+  if (!getPermissions) return; // if permissions are not granted, exit
+});
