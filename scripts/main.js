@@ -20,7 +20,7 @@ async function getPermissions() {
 }
 
 function handleMotion(event) {
-  const acceleration = event.accelerationIncludingGravity; // (z: 9.8) rest, (z: 0) free fall
+  const acceleration = event.accelerationIncludingGravity; // 9.8 rest, z: 0 free fall (goal for total)
 
   if (!acceleration) {
     statusText.textContent = "No acceleration data detected, check device";
@@ -28,11 +28,12 @@ function handleMotion(event) {
   }
 
   const { x, y, z } = acceleration; // seperate acceleration on x, y, and z axis
+  const totalForce = Math.sqrt(x * x + y * y + z * z); // total strength across all axes to produce 1 number (9.8 is gravity, so still)
 
-  statusText.textContent = `Acceleration: (x:${x.toFixed(1)}, y:${y.toFixed(1)}, z:${z.toFixed(1)})`;
+  statusText.textContent = `Acceleration: (x:${x.toFixed(1)}, y:${y.toFixed(1)}, z:${z.toFixed(1)}) | Total Force: ${totalForce}`;
 
   // flickUpdate(idk) <- Tigo, func goes here
-  tossUpdate(Math.abs(z)); // absolute value z, showed as negative
+  tossUpdate(totalForce);
 }
 
 startButton.addEventListener("click", async () => {
