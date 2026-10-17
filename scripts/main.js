@@ -1,4 +1,4 @@
-import { tossUpdate } from "./toss";
+import { tossUpdate } from "./toss.js";
 
 const startButton = document.getElementById("start");
 const statusText = document.getElementById("status"); // temporary status text until UI is added by Maria
@@ -27,9 +27,9 @@ function handleMotion(event) {
     return;
   }
 
-  const {x, y, z} = acceleration; // seperate acceleration on x, y, and z axis
+  const { x, y, z } = acceleration; // seperate acceleration on x, y, and z axis
 
-  statusText.textContent = `Acceleration: (x:${x}, y:${y}, z:${z})`
+  statusText.textContent = `Acceleration: (x:${x}, y:${y}, z:${z})`;
 
   // flickUpdate(idk) <- Tigo, func goes here
   tossUpdate(z);
