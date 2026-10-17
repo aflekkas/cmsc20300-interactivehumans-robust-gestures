@@ -27,6 +27,7 @@ function handleMotion(event) {
 
   const {x, y, z} = acceleration; // seperate acceleration on x, y, and z axis
 
+  statusText.textContent = `Acceleration: (x:${x}, y:${y}, z:${z})`
   // Tigo, flick update function goes here
   // adding toss update function now
 }
