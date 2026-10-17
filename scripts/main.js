@@ -29,7 +29,7 @@ function handleMotion(event) {
 
   const { x, y, z } = acceleration; // seperate acceleration on x, y, and z axis
 
-  statusText.textContent = `Acceleration: (x:${x}, y:${y}, z:${z})`;
+  statusText.textContent = `Acceleration: (x:${x.toFixed(1)}, y:${y.toFixed(1)}, z:${z.toFixed(1)})`;
 
   // flickUpdate(idk) <- Tigo, func goes here
   tossUpdate(Math.abs(z)); // absolute value z, showed as negative
