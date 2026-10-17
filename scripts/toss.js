@@ -10,6 +10,14 @@ export function tossUpdate(z) {
     // trigger
     if (Date.now() - tossStartedAt > MINIMUM_TOSS_DURATION) {
       document.body.style.background = "red";
+
+      setTimeout(() => (
+        document.body.style.background = ""
+      ), 1000) // after 1s repeat
+
+      tossStartedAt = null; // allow sequence to repeat
     }
+  } else {
+    tossStartedAt = null; // not above threshold? reset, must not be tossed
   }
 }
