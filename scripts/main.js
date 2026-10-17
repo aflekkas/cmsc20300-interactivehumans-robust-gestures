@@ -17,6 +17,18 @@ async function getPermissions() {
   return true;
 }
 
+function handleMotion(event) {
+  const acceleration = event.accelerationIncludingGravity; // 9.8 rest, 0 free fall
+
+  if (!acceleration) {
+    statusText.textContent = "No acceleration data detected, check device";
+    return;
+  }
+
+  const {x, y, z} = acceleration; // seperate acceleration on x, y, and z axis
+  
+}
+
 startButton.addEventListener("click", async () => {
   if (!(await getPermissions())) return; // if permissions are not granted, exit
 });
