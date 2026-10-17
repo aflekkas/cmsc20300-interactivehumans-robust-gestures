@@ -5,10 +5,10 @@ let tossStartedAt = null;
 
 export function tossUpdate(z) {
   if (z < TOSS_THRESHHOLD) {
-    if (tossStartedAt == null) tossStartedAt = Date.now();
+    if (tossStartedAt == null) tossStartedAt = Date.now(); // start toss
 
+    // trigger
     if (Date.now() - freeFallStartedAt > MINIMUM_TOSS_DURATION) {
-      // trigger
       document.body.style.background = "red";
     }
   }
