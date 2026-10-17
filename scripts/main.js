@@ -12,10 +12,11 @@ async function getPermissions() {
     }
 
     statusText.textContent = "Permission granted";
-    return true;
   }
+
+  return true;
 }
 
 startButton.addEventListener("click", async () => {
-  if (!getPermissions) return; // if permissions are not granted, exit
+  if (!(await getPermissions())) return; // if permissions are not granted, exit
 });
