@@ -30,7 +30,7 @@ function handleMotion(event) {
   const { x, y, z } = acceleration; // seperate acceleration on x, y, and z axis
   const totalForce = Math.sqrt(x * x + y * y + z * z); // total strength across all axes to produce 1 number (9.8 is gravity, so still)
 
-  statusText.textContent = `Acceleration: (x:${x.toFixed(1)}, y:${y.toFixed(1)}, z:${z.toFixed(1)}) | Total Force: ${totalForce}`;
+  statusText.textContent = `Acceleration: (x:${x.toFixed(1)}, y:${y.toFixed(1)}, z:${z.toFixed(1)}) | Total Force: ${totalForce.toFixed(1)}`;
 
   // flickUpdate(idk) <- Tigo, func goes here
   tossUpdate(totalForce);
