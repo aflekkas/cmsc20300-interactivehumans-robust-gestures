@@ -32,7 +32,7 @@ function handleMotion(event) {
   statusText.textContent = `Acceleration: (x:${x}, y:${y}, z:${z})`;
 
   // flickUpdate(idk) <- Tigo, func goes here
-  tossUpdate(z);
+  tossUpdate(Math.abs(z)); // absolute value z, showed as negative
 }
 
 startButton.addEventListener("click", async () => {
