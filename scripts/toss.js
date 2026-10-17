@@ -8,7 +8,7 @@ export function tossUpdate(z) {
     if (tossStartedAt == null) tossStartedAt = Date.now(); // start toss
 
     // trigger
-    if (Date.now() - freeFallStartedAt > MINIMUM_TOSS_DURATION) {
+    if (Date.now() - tossStartedAt > MINIMUM_TOSS_DURATION) {
       document.body.style.background = "red";
     }
   }
