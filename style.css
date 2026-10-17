@@ -1,1 +1,9 @@
-/* styling: Maria */
+/* 
+styling: Maria
+
+Note (from Alex):
+
+main.js produces a lot of data (acceleration) and statuses. Right now they're lumped into one status <p> element.
+I would recommend that as part of the redesign you seperate these variables and data in main.js to display them
+seperately in the UI!
+ */
