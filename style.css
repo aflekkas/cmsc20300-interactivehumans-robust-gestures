@@ -7,3 +7,164 @@ main.js produces a lot of data (acceleration) and statuses. Right now they're lu
 I would recommend that as part of the redesign you seperate these variables and data in main.js to display them
 seperately in the UI!
  */
+
+
+/* GENERAL PAGE */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f5f7fb;
+  color: #222;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* HEADER */
+
+header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+header h1 {
+  font-size: 30px;
+  margin: 10px 0;
+}
+
+header p {
+  color: #777;
+  font-size: 14px;
+}
+
+.subtitle {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* CARDS */
+
+.card {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.card h2 {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 22px;
+}
+
+/* INPUTS */
+
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  background: white;
+}
+
+/* SENSOR GRID */
+
+.sensor-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.sensor-box {
+  background: #f5f7fb;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+.sensor-box p {
+  color: #777;
+  font-size: 12px;
+  margin-top: 0;
+}
+
+.sensor-box h3 {
+  font-size: 24px;
+  margin-bottom: 0;
+}
+
+/* GESTURE FEEDBACK */
+
+.gesture-box {
+  background: #eef2ff;
+  padding: 18px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.gesture-box p {
+  font-size: 13px;
+  color: #666;
+}
+
+.gesture-box h3 {
+  font-size: 18px;
+}
+
+/* BUTTON */
+
+button {
+  width: 100%;
+  padding: 15px;
+  background: #3458d4;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:active {
+  background: #243fa3;
+}
+
+/* STATUS */
+
+#status {
+  font-size: 12px;
+  color: #777;
+  text-align: center;
+  overflow-wrap: anywhere;
+  line-height: 1.6;
+}
+
+/* FOOTER */
+
+footer {
+  text-align: center;
+  color: #999;
+  font-size: 12px;
+  margin-top: 30px;
+}
