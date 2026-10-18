@@ -1,15 +1,104 @@
-<!doctype html>
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Interactive Humans - Robust Gestures</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
+<!DOCTYPE html>
+<html lang="en">
 
-  <body>
-    <button id="start">Start</button>
-    <p id="status"></p>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script type="module" src="scripts/main.js"></script>
-  </body>
+  <title>Robust Gestures</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <main class="container">
+
+    <!-- HEADER -->
+    <header>
+      <p class="subtitle">CMSC 20300 | HCI Project</p>
+      <h1>Robust Gestures</h1>
+      <p>Motion-based gesture recognition study</p>
+    </header>
+
+    <!-- STUDY SETUP -->
+    <section class="card">
+
+      <h2>1. Study Setup</h2>
+
+      <label for="participant">Participant ID</label>
+      <input
+        type="text"
+        id="participant"
+        placeholder="e.g. P001"
+      >
+
+      <label for="mode">Study Mode</label>
+      <select id="mode">
+        <option value="intentional">Intentional Gestures</option>
+        <option value="accidental">Accidental Activation</option>
+      </select>
+
+      <label for="activity">Activity</label>
+      <select id="activity">
+        <option value="none">Select an activity</option>
+        <option value="walking">Walking</option>
+        <option value="pickup">Picking up phone</option>
+        <option value="pocket">Putting phone in pocket</option>
+        <option value="other">Other</option>
+      </select>
+
+    </section>
+
+    <!-- SENSOR MONITORING -->
+    <section class="card">
+
+      <h2>2. Sensor Monitoring</h2>
+
+      <div class="sensor-grid">
+
+        <div class="sensor-box">
+          <p>Acceleration X</p>
+          <h3 id="accel-x">—</h3>
+        </div>
+
+        <div class="sensor-box">
+          <p>Acceleration Y</p>
+          <h3 id="accel-y">—</h3>
+        </div>
+
+        <div class="sensor-box">
+          <p>Acceleration Z</p>
+          <h3 id="accel-z">—</h3>
+        </div>
+
+        <div class="sensor-box">
+          <p>Total Force</p>
+          <h3 id="total-force">—</h3>
+        </div>
+
+      </div>
+
+      <!-- GESTURE DETECTION -->
+      <div class="gesture-box">
+        <p>Last Detected Gesture</p>
+        <h3 id="gesture-result">Waiting for gesture...</h3>
+      </div>
+
+      <!-- EXISTING START BUTTON -->
+      <button id="start">Enable Motion Sensors</button>
+
+      <!-- EXISTING STATUS ELEMENT -->
+      <p id="status">Sensors not connected</p>
+
+    </section>
+
+    <footer>
+      <p>University of Chicago | Interactive Humans</p>
+    </footer>
+
+  </main>
+
+  <script type="module" src="scripts/main.js"></script>
+
+</body>
 </html>
