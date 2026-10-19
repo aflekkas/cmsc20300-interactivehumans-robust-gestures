@@ -1,4 +1,5 @@
 import { tossUpdate } from "./toss.js";
+import { flickUpdate } from "./flick.js";
 
 const startButton = document.getElementById("start");
 const statusText = document.getElementById("status"); // temporary status text until UI is added by Maria
@@ -32,7 +33,7 @@ function handleMotion(event) {
 
   statusText.textContent = `Acceleration: (x:${x.toFixed(1)}, y:${y.toFixed(1)}, z:${z.toFixed(1)}) | Total Force: ${totalForce.toFixed(1)}`;
 
-  // flickUpdate(idk) <- Tigo, func goes here
+  flickUpdate(x);
   tossUpdate(totalForce);
 }
 
