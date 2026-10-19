@@ -1,170 +1,242 @@
-/* 
-styling: Maria
 
-Note (from Alex):
-
-main.js produces a lot of data (acceleration) and statuses. Right now they're lumped into one status <p> element.
-I would recommend that as part of the redesign you seperate these variables and data in main.js to display them
-seperately in the UI!
- */
-
-
-/* GENERAL PAGE */
+/* GENERAL */
 
 * {
   box-sizing: border-box;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 body {
   margin: 0;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  background-color: #f5f7fb;
-  color: #222;
+  background: #f4f6fa;
+  color: #18233a;
+  font-family: system-ui, Arial, sans-serif;
 }
 
-.container {
-  max-width: 600px;
-  margin: 0 auto;
+.app {
+  width: min(100% - 32px, 530px);
+  margin: 30px auto;
 }
 
-/* HEADER */
 
-header {
+/* HEADER AND TEXT */
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0.13em;
+  color: #586ba0;
+}
+
+h1 {
+  font-size: 32px;
+  margin: 4px 0;
+}
+
+h2 {
+  font-size: 20px;
+  margin: 0 0 14px;
+}
+
+p {
+  line-height: 1.5;
+}
+
+.muted, .hint {
+  color: #667187;
+}
+
+.hint {
+  font-size: 12px;
+}
+
+.center {
   text-align: center;
-  margin-bottom: 30px;
 }
 
-header h1 {
-  font-size: 30px;
-  margin: 10px 0;
-}
-
-header p {
-  color: #777;
-  font-size: 14px;
-}
-
-.subtitle {
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
 
 /* CARDS */
 
 .card {
   background: white;
-  padding: 24px;
+  border: 1px solid #e4e9f2;
   border-radius: 16px;
-  margin-bottom: 20px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+  padding: 22px;
+  margin-bottom: 14px;
+  box-shadow: 0 3px 10px rgba(27, 43, 75, 0.035);
 }
 
-.card h2 {
-  font-size: 18px;
-  margin-top: 0;
-  margin-bottom: 22px;
-}
 
-/* INPUTS */
+/* FORM */
 
 label {
   display: block;
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-input,
-select {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 16px;
-  background: white;
-}
-
-/* SENSOR GRID */
-
-.sensor-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.sensor-box {
-  background: #f5f7fb;
-  border-radius: 10px;
-  padding: 16px;
-  text-align: center;
-}
-
-.sensor-box p {
-  color: #777;
-  font-size: 12px;
-  margin-top: 0;
-}
-
-.sensor-box h3 {
-  font-size: 24px;
-  margin-bottom: 0;
-}
-
-/* GESTURE FEEDBACK */
-
-.gesture-box {
-  background: #eef2ff;
-  padding: 18px;
-  border-radius: 10px;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.gesture-box p {
   font-size: 13px;
-  color: #666;
+  font-weight: 650;
+  margin: 16px 0 7px;
 }
 
-.gesture-box h3 {
-  font-size: 18px;
+input, select {
+  width: 100%;
+  font: inherit;
+  padding: 12px;
+  border: 1px solid #cdd5e2;
+  border-radius: 9px;
+  background: white;
+  color: inherit;
 }
 
-/* BUTTON */
+
+/* BUTTONS */
 
 button {
-  width: 100%;
-  padding: 15px;
-  background: #3458d4;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: bold;
+  font: inherit;
+  font-weight: 650;
   cursor: pointer;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 9px;
 }
 
-button:active {
-  background: #243fa3;
+button:disabled {
+  opacity: 0.42;
+  cursor: default;
 }
 
-/* STATUS */
+button.primary {
+  width: 100%;
+  margin-top: 19px;
+  background: #2e56d4;
+  color: white;
+}
+
+button.secondary {
+  width: 100%;
+  margin-top: 10px;
+  background: #eef2ff;
+  color: #2349b5;
+}
+
+button.text-button {
+  width: 100%;
+  margin-top: 6px;
+  background: transparent;
+  color: #65718a;
+}
+
+
+/* EXPERIMENT INFORMATION */
+
+.chip {
+  display: inline-block;
+  background: #edf2ff;
+  color: #2e56d4;
+  padding: 5px 9px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: bold;
+  margin-bottom: 14px;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 22px 0;
+}
+
+.metrics > div {
+  background: #f3f6fc;
+  padding: 14px;
+  border-radius: 10px;
+}
+
+.metrics span {
+  display: block;
+  font-size: 12px;
+  color: #647089;
+  margin-bottom: 5px;
+}
+
+.metrics strong {
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+}
+
+.message {
+  background: #f3f6fc;
+  padding: 13px;
+  border-radius: 9px;
+  font-size: 14px;
+}
+
+.clock {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 52px;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* RECORDING STATUS */
+
+.recording-state {
+  padding: 11px 13px;
+  border-radius: 9px;
+  background: #fff4de;
+  color: #754d14;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.recording-state.recording-active {
+  background: #e6f7ea;
+  color: #176636;
+}
+
+
+/* STATUS MESSAGES */
 
 #status {
   font-size: 12px;
-  color: #777;
-  text-align: center;
+  color: #68738a;
   overflow-wrap: anywhere;
-  line-height: 1.6;
 }
 
-/* FOOTER */
-
-footer {
-  text-align: center;
-  color: #999;
+.detector-status {
   font-size: 12px;
-  margin-top: 30px;
+  color: #3458a2;
+  background: #edf4ff;
+  padding: 10px;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+.warning {
+  background: #fff7e7;
+  padding: 12px;
+  border-radius: 9px;
+  font-size: 13px;
+  color: #825600;
+}
+
+
+/* SMALL SCREENS */
+
+@media (max-width: 380px) {
+  .card {
+    padding: 16px;
+  }
+
+  .metrics {
+    gap: 8px;
+  }
 }

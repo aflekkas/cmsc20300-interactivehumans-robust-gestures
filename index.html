@@ -1,104 +1,120 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Robust Gestures</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Robust Gestures — Study</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
-  <main class="container">
-
-    <!-- HEADER -->
-    <header>
-      <p class="subtitle">CMSC 20300 | HCI Project</p>
+  <main class="app">
+    <header class="page-header">
+      <p class="eyebrow">HCI · USER STUDY</p>
       <h1>Robust Gestures</h1>
-      <p>Motion-based gesture recognition study</p>
+      <p class="muted">Toss vs. Flick</p>
     </header>
 
-    <!-- STUDY SETUP -->
-    <section class="card">
+    <!-- 1. Researcher configures the participant's test -->
+    <section id="setup-screen" class="screen card">
+      <h2>Set up a test</h2>
+      <form id="setup-form">
+        <label for="participant">Participant ID</label>
+        <input id="participant" placeholder="P001" required >
 
-      <h2>1. Study Setup</h2>
+        <label for="mode">Test type</label>
+        <select id="mode">
+          <option value="accuracy">Recognition accuracy</option>
+          <option value="accidental">Accidental activation</option>
+        </select>
 
-      <label for="participant">Participant ID</label>
-      <input
-        type="text"
-        id="participant"
-        placeholder="e.g. P001"
-      >
+        <div id="gesture-choice">
+          <label for="gesture">Gesture to test</label>
+          <select id="gesture">
+            <option value="toss">Toss</option>
+            <option value="flick">Flick</option>
+          </select>
+        </div>
 
-      <label for="mode">Study Mode</label>
-      <select id="mode">
-        <option value="intentional">Intentional Gestures</option>
-        <option value="accidental">Accidental Activation</option>
-      </select>
+        <div id="activity-choice" hidden>
+          <label for="activity">Everyday activity</label>
+          <select id="activity">
+            <option value="walking">Walking with phone</option>
+            <option value="pickup">Picking up / putting down</option>
+            <option value="handling">Moving phone between hands</option>
+            <option value="screen">Using phone normally</option>
+          </select>
+          <p class="hint">Both toss and flick detectors will be active.</p>
+        </div>
 
-      <label for="activity">Activity</label>
-      <select id="activity">
-        <option value="none">Select an activity</option>
-        <option value="walking">Walking</option>
-        <option value="pickup">Picking up phone</option>
-        <option value="pocket">Putting phone in pocket</option>
-        <option value="other">Other</option>
-      </select>
-
+        <button type="submit" class="primary">Start study →</button>
+      </form>
     </section>
 
-    <!-- SENSOR MONITORING -->
-    <section class="card">
+    <!-- Keep these IDs: Alexandros's existing main.js uses #start and #status -->
+    
+  <section id="sensor-panel" class="card" hidden>
+    <h2>Motion sensors</h2>
 
-      <h2>2. Sensor Monitoring</h2>
+    <button id="start" type="button">
+      Enable motion sensors
+    </button>
 
-      <div class="sensor-grid">
+    <p id="status" aria-live="polite">
+      Not enabled yet
+    </p>
+  </section>
 
-        <div class="sensor-box">
-          <p>Acceleration X</p>
-          <h3 id="accel-x">—</h3>
-        </div>
 
-        <div class="sensor-box">
-          <p>Acceleration Y</p>
-          <h3 id="accel-y">—</h3>
-        </div>
-
-        <div class="sensor-box">
-          <p>Acceleration Z</p>
-          <h3 id="accel-z">—</h3>
-        </div>
-
-        <div class="sensor-box">
-          <p>Total Force</p>
-          <h3 id="total-force">—</h3>
-        </div>
-
+    <!-- 2A. Accuracy test -->
+    <section id="accuracy-screen" class="screen card" hidden>
+      <span class="chip">ACCURACY</span>
+      <h2 id="accuracy-title">Toss test</h2>
+      <p id="accuracy-participant" class="muted"></p>
+      <p>
+    Ask the participant to perform one intentional gesture
+    per attempt. A recognized gesture counts automatically
+    and advances to the next attempt. If nothing is
+    recognized, press Missed.
+    </p>
+      <div class="metrics">
+        <div><span>Attempt</span><strong id="trial-number">1 / 10</strong></div>
+        <div><span>Correct detections</span><strong id="accuracy-correct">0</strong></div>
       </div>
-
-      <!-- GESTURE DETECTION -->
-      <div class="gesture-box">
-        <p>Last Detected Gesture</p>
-        <h3 id="gesture-result">Waiting for gesture...</h3>
-      </div>
-
-      <!-- EXISTING START BUTTON -->
-      <button id="start">Enable Motion Sensors</button>
-
-      <!-- EXISTING STATUS ELEMENT -->
-      <p id="status">Sensors not connected</p>
-
+      <p id="trial-message" class="message">Ready for first attempt.</p>
+      <p id="accuracy-detector-status" class="detector-status" aria-live="polite">Waiting for the first detector event.</p>
+      <button id="finish-trial" class="secondary" disabled>Missed — no detection</button>
+      <button id="invalidate-trial" class="text-button" disabled>Attempt not completed — retry</button>
     </section>
 
-    <footer>
-      <p>University of Chicago | Interactive Humans</p>
-    </footer>
+    <!-- 2B. Accidental activation test -->
+    <section id="accidental-screen" class="screen card" hidden>
+      <span class="chip">ACCIDENTAL ACTIVATION</span>
+      <h2 id="activity-title">Walking with phone</h2>
+      <p id="activity-participant" class="muted"></p>
+      <p>Ask the participant to do this activity normally, <strong>without deliberately performing either gesture</strong>.</p>
+      <div class="clock" id="activity-clock">01:00</div>
+      <p class="muted center">Both detectors are monitored for 60 seconds once recording starts.</p>
+      <p id="recording-state" class="recording-state" aria-live="polite">Not recording yet — tap Start recording.</p>
+      <div class="metrics">
+        <div><span>False toss detections</span><strong id="toss-count">0</strong></div>
+        <div><span>False flick detections</span><strong id="flick-count">0</strong></div>
+      </div>
+      <p id="accidental-detector-status" class="detector-status" aria-live="polite">Waiting for detector events.</p>
+      <button id="begin-activity" class="primary">Start recording (60 sec)</button>
+      <button id="stop-activity" class="secondary" disabled>Stop activity</button>
+    </section>
 
+    <!-- 3. Show a provisional summary, not a file-save confirmation -->
+    <section id="results-screen" class="screen card" hidden>
+      <span class="chip">FINISHED</span>
+      <h2>Test summary</h2>
+      <div id="summary"></div>
+      <p class="warning">We need to save results here.</p>
+      <button id="new-test" class="primary">Set up another test</button>
+    </section>
   </main>
 
   <script type="module" src="scripts/main.js"></script>
-
+  <script type="module" src="scripts/study-ui.js"></script>
 </body>
 </html>
