@@ -18,6 +18,11 @@
       Initializing logger...
     </p>
 
+    <button id="export-csv" type="button" class="secondary">
+      Export CSV
+    </button>
+    <p id="export-status" class="muted" role="status"></p>
+
     <!-- 1. Researcher configures the participant's test -->
     <section id="setup-screen" class="screen card">
       <h2>Set up a test</h2>
@@ -113,12 +118,16 @@
       <span class="chip">FINISHED</span>
       <h2>Test summary</h2>
       <div id="summary"></div>
-      <p class="warning">We need to save results here.</p>
+      <p class="muted">
+        Events are saved locally in this browser.
+        Use Export CSV to download a copy.
+      </p>
       <button id="new-test" class="primary">Set up another test</button>
     </section>
   </main>
 
   <script src="scripts/logger.js"></script>
+  <script src="scripts/export.js"></script>
   <script type="module" src="scripts/main.js"></script>
   <script type="module" src="scripts/study-ui.js"></script>
 </body>
