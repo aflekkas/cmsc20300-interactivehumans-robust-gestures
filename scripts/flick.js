@@ -30,6 +30,7 @@ export function flickUpdate(x) {
   }
 }
 
+
 function reportFlick(now, duration) {
   const detection = {
     gesture: "flick",
@@ -38,11 +39,16 @@ function reportFlick(now, duration) {
     direction: flickDirection,
     duration_ms: duration
   };
-  window.dispatchEvent(new CustomEvent("gesture-detected", { detail: detection }));
+
+  // Only show blue feedback during an accuracy test.
+  const showFlash = document.body.dataset.studyPhase === "accuracy";
+
+  window.dispatchEvent(new CustomEvent("gesture-detected", { detail: detection}));
+
   console.debug("[flick.js] dispatched gesture-detected", detection);
 
-  if (document.body.dataset.studyPhase !== "accidental") {
+  if (showFlash) {
     document.body.style.background = "#2e56d4";
-    setTimeout(() => { document.body.style.background = ""; }, 1000);
+    setTimeout(() => {document.body.style.background = "";}, 1000);
   }
 }

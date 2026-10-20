@@ -1,5 +1,3 @@
-// Alexandros's original threshold-based toss detector, with a small event bridge.
-// Detection threshold and minimum duration are unchanged.
 const TOSS_THRESHHOLD = 2;
 const MINIMUM_TOSS_DURATION = 100; // ms
 const TOSS_COOLDOWN_MS = 1200;
@@ -22,15 +20,19 @@ export function tossUpdate(totalForce) {
 
       // NEW: notifing UI that a toss gesture was detected
       const detection = { gesture: "toss", timestamp_ms: now, source: "detector" };
+
+      // Only flash when an accuracy attempt is active.
+      const showFlash = document.body.dataset.studyPhase === "accuracy";
+
       window.dispatchEvent(new CustomEvent("gesture-detected", { detail: detection }));
+
       console.debug("[toss.js] dispatched gesture-detected", detection);
 
-      // Keep the original red flash in accuracy/demo mode; avoid changing
-      // participant behavior by flashing during accidental-activation tests.
-      if (document.body.dataset.studyPhase !== "accidental") {
+      if (showFlash) {
         document.body.style.background = "red";
         setTimeout(() => { document.body.style.background = ""; }, 1000);
       }
+
     }
   } else {
     tossStartedAt = null;
