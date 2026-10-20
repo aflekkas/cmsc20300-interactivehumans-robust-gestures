@@ -23,6 +23,17 @@
     </button>
     <p id="export-status" class="muted" role="status"></p>
 
+    <button id="view-stats" type="button" class="secondary">
+      View saved statistics
+    </button>
+    <p id="view-stats" class="muted"></p>
+
+    <section id="all-results" class="card" hidden>
+      <h2>Overall study statistics</h2>
+      <p class="muted">All sessions saved in this browser.</p>
+      <div id="all-statistics"></div>
+    </section>
+
     <!-- 1. Researcher configures the participant's test -->
     <section id="setup-screen" class="screen card">
       <h2>Set up a test</h2>
@@ -115,6 +126,8 @@
 
     <!-- 3. Show a provisional summary, not a file-save confirmation -->
     <section id="results-screen" class="screen card" hidden>
+      <h3>Detailed session statistics</h3>
+      <div id="session-statistics"></div>
       <span class="chip">FINISHED</span>
       <h2>Test summary</h2>
       <div id="summary"></div>
@@ -128,6 +141,7 @@
 
   <script src="scripts/logger.js"></script>
   <script src="scripts/export.js"></script>
+  <script src="scripts/statistics.js"></script>
   <script type="module" src="scripts/main.js"></script>
   <script type="module" src="scripts/study-ui.js"></script>
 </body>
