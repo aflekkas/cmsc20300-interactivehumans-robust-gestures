@@ -34,6 +34,42 @@
       <div id="all-statistics"></div>
     </section>
 
+    <section id="recovery-panel" class="card" hidden>
+      <h2>Unfinished sessions found</h2>
+
+      <p class="warning">
+        Some experiments were not completed.
+        Their previously recorded events are still available.
+      </p>
+
+      <ul id="unfinished-sessions"></ul>
+
+      <p class="muted">
+        Use Export CSV to recover the data.
+        Interrupted experiments cannot be resumed automatically.
+      </p>
+    </section>
+
+    <details class="card">
+      <summary>Local data management</summary>
+
+      <p class="muted">
+        Experiment data is stored in this browser,
+        not on the GitHub server.
+      </p>
+
+      <p class="warning">
+        Export your CSV and verify that the file was saved
+        before deleting local data.
+      </p>
+
+      <button id="clear-events" type="button" class="secondary">
+        Delete all saved events
+      </button>
+
+      <p id="clear-status" class="muted" role="status"></p>
+    </details>
+
     <!-- 1. Researcher configures the participant's test -->
     <section id="setup-screen" class="screen card">
       <h2>Set up a test</h2>
@@ -126,6 +162,8 @@
 
     <!-- 3. Show a provisional summary, not a file-save confirmation -->
     <section id="results-screen" class="screen card" hidden>
+      <h2>Test summary</h2>
+      <div id="summary"></div>
       <h3>Detailed session statistics</h3>
       <div id="session-statistics"></div>
       <span class="chip">FINISHED</span>
@@ -142,6 +180,7 @@
   <script src="scripts/logger.js"></script>
   <script src="scripts/export.js"></script>
   <script src="scripts/statistics.js"></script>
+  <script src="scripts/recovery.js"></script>
   <script type="module" src="scripts/main.js"></script>
   <script type="module" src="scripts/study-ui.js"></script>
 </body>

@@ -49,9 +49,13 @@ exportButton.addEventListener("click", () => {
       return;
     }
 
+    // Identify sessions with a recorded session_end event.
+    const completedSessions = new Set(events.filter(e => e.event_type === "session_end").map(e => e.session_id));
+
     // include every field present in any event -> flexible for further changes
     const columns = [
       "timestamp_iso",
+      "session_status",
       ...new Set(events.flatMap(event => Object.keys(event)))
     ];
 
@@ -59,7 +63,15 @@ exportButton.addEventListener("click", () => {
       columns.map(csvCell).join(","),
       ...events.map(event =>
         columns.map(column => {
-          const value = column === "timestamp_iso" ? new Date(event.timestamp_ms).toISOString() : event[column];
+          let value = event[column];
+
+          if (column === "timestamp_iso") {
+            value = new Date(event.timestamp_ms).toISOString();
+          }
+
+          if (column === "session_status") {
+            value = completedSessions.has(event.session_id) ? "complete" : "incomplete";
+          }
           return csvCell(value);
         }).join(",")
       )
