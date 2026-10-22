@@ -33,7 +33,7 @@ function handleMotion(event) {
 
   statusText.textContent = `Acceleration: (x:${x.toFixed(1)}, y:${y.toFixed(1)}, z:${z.toFixed(1)}) | Total Force: ${totalForce.toFixed(1)}`;
 
-  flickUpdate(x);
+  flickUpdate(x, totalForce);
   tossUpdate(totalForce);
 }
 
