@@ -1,187 +1,195 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Robust Gestures — Study</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <main class="app">
-    <header class="page-header">
-      <p class="eyebrow">HCI · USER STUDY</p>
-      <h1>Robust Gestures</h1>
-      <p class="muted">Toss vs. Flick</p>
-    </header>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Robust Gestures — Study</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="page-header">
+        <p class="eyebrow">HCI · USER STUDY</p>
+        <h1>Robust Gestures</h1>
+        <p class="muted">Toss vs. Flick</p>
+      </header>
 
-    <p id="log-status" class="muted" role="status">
-      Initializing logger...
-    </p>
+      <p id="log-status" class="muted" role="status">Initializing logger...</p>
 
-    <button id="export-csv" type="button" class="secondary">
-      Export CSV
-    </button>
-    <p id="export-status" class="muted" role="status"></p>
-
-    <button id="view-stats" type="button" class="secondary">
-      View saved statistics
-    </button>
-    <p id="view-stats" class="muted"></p>
-
-    <section id="all-results" class="card" hidden>
-      <h2>Overall study statistics</h2>
-      <p class="muted">All sessions saved in this browser.</p>
-      <div id="all-statistics"></div>
-    </section>
-
-    <section id="recovery-panel" class="card" hidden>
-      <h2>Unfinished sessions found</h2>
-
-      <p class="warning">
-        Some experiments were not completed.
-        Their previously recorded events are still available.
-      </p>
-
-      <ul id="unfinished-sessions"></ul>
-
-      <p class="muted">
-        Use Export CSV to recover the data.
-        Interrupted experiments cannot be resumed automatically.
-      </p>
-    </section>
-
-    <details class="card">
-      <summary>Local data management</summary>
-
-      <p class="muted">
-        Experiment data is stored in this browser,
-        not on the GitHub server.
-      </p>
-
-      <p class="warning">
-        Export your CSV and verify that the file was saved
-        before deleting local data.
-      </p>
-
-      <button id="clear-events" type="button" class="secondary">
-        Delete all saved events
+      <button id="export-csv" type="button" class="secondary">
+        Export CSV
       </button>
+      <p id="export-status" class="muted" role="status"></p>
 
-      <p id="clear-status" class="muted" role="status"></p>
-    </details>
+      <button id="view-stats" type="button" class="secondary">
+        View saved statistics
+      </button>
+      <p id="view-stats" class="muted"></p>
 
-    <!-- 1. Researcher configures the participant's test -->
-    <section id="setup-screen" class="screen card">
-      <h2>Set up a test</h2>
-      <form id="setup-form">
-        <label for="participant">Participant ID</label>
-        <input id="participant" placeholder="P001" required >
+      <section id="all-results" class="card" hidden>
+        <h2>Overall study statistics</h2>
+        <p class="muted">All sessions saved in this browser.</p>
+        <div id="all-statistics"></div>
+      </section>
 
-        <label for="mode">Test type</label>
-        <select id="mode">
-          <option value="accuracy">Recognition accuracy</option>
-          <option value="accidental">Accidental activation</option>
-        </select>
+      <section id="recovery-panel" class="card" hidden>
+        <h2>Unfinished sessions found</h2>
 
-        <div id="gesture-choice">
-          <label for="gesture">Gesture to test</label>
-          <select id="gesture">
-            <option value="toss">Toss</option>
-            <option value="flick">Flick</option>
-          </select>
+        <p class="warning">
+          Some experiments were not completed. Their previously recorded events
+          are still available.
+        </p>
+
+        <ul id="unfinished-sessions"></ul>
+
+        <p class="muted">
+          Use Export CSV to recover the data. Interrupted experiments cannot be
+          resumed automatically.
+        </p>
+      </section>
+
+      <details class="card">
+        <summary>Local data management</summary>
+
+        <p class="muted">
+          Experiment data is stored in this browser, not on the GitHub server.
+        </p>
+
+        <p class="warning">
+          Export your CSV and verify that the file was saved before deleting
+          local data.
+        </p>
+
+        <button id="clear-events" type="button" class="secondary">
+          Delete all saved events
+        </button>
+
+        <p id="clear-status" class="muted" role="status"></p>
+      </details>
+
+      <!-- 1. Researcher configures the participant's test -->
+      <section id="setup-screen" class="screen card">
+        <h2>Set up a test</h2>
+        <form id="setup-form">
+          <label for="participant">Participant ID</label>
+          <input id="participant" placeholder="P001" required />
+
+          <p class="hint">
+            Runs in order: accidental activation (2 minutes) -> x10 toss -> x10
+            flick -> survey. Enable motion sensors before starting
+          </p>
+
+          <button type="submit" class="primary">Start study →</button>
+        </form>
+      </section>
+
+      <!-- Keep these IDs: Alexandros's existing main.js uses #start and #status -->
+
+      <section id="sensor-panel" class="card" hidden>
+        <h2>Motion sensors</h2>
+
+        <button id="start" type="button">Enable motion sensors</button>
+
+        <p id="status" aria-live="polite">Not enabled yet</p>
+      </section>
+
+      <!-- 2A. Accuracy test -->
+      <section id="accuracy-screen" class="screen card" hidden>
+        <span class="chip">ACCURACY</span>
+        <h2 id="accuracy-title">Toss test</h2>
+        <p id="accuracy-participant" class="muted"></p>
+        <p>
+          Ask the participant to perform one intentional gesture per attempt. A
+          recognized gesture counts automatically and advances to the next
+          attempt. If nothing is recognized, press Missed.
+        </p>
+        <div class="metrics">
+          <div>
+            <span>Attempt</span><strong id="trial-number">1 / 10</strong>
+          </div>
+          <div>
+            <span>Correct detections</span
+            ><strong id="accuracy-correct">0</strong>
+          </div>
         </div>
+        <p id="trial-message" class="message">Ready for first attempt.</p>
+        <p
+          id="accuracy-detector-status"
+          class="detector-status"
+          aria-live="polite"
+        >
+          Waiting for the first detector event.
+        </p>
+        <button id="finish-trial" class="secondary" disabled>
+          Missed — no detection
+        </button>
+        <button id="invalidate-trial" class="text-button" disabled>
+          Attempt not completed — retry
+        </button>
+      </section>
 
-        <div id="activity-choice" hidden>
-          <label for="activity">Everyday activity</label>
-          <select id="activity">
-            <option value="walking">Walking with phone</option>
-            <option value="pickup">Picking up / putting down</option>
-            <option value="handling">Moving phone between hands</option>
-            <option value="screen">Using phone normally</option>
-          </select>
-          <p class="hint">Both toss and flick detectors will be active.</p>
+      <!-- 2B. Accidental activation test -->
+      <section id="accidental-screen" class="screen card" hidden>
+        <span class="chip">ACCIDENTAL ACTIVATION</span>
+        <h2 id="activity-title">Walking with phone</h2>
+        <p id="activity-participant" class="muted"></p>
+        <p>
+          Ask the participant to do this activity normally,
+          <strong>without deliberately performing either gesture</strong>.
+        </p>
+        <div class="clock" id="activity-clock">01:00</div>
+        <p class="muted center">
+          Both detectors are monitored for 60 seconds once recording starts.
+        </p>
+        <p id="recording-state" class="recording-state" aria-live="polite">
+          Not recording yet — tap Start recording.
+        </p>
+        <div class="metrics">
+          <div>
+            <span>False toss detections</span><strong id="toss-count">0</strong>
+          </div>
+          <div>
+            <span>False flick detections</span
+            ><strong id="flick-count">0</strong>
+          </div>
         </div>
+        <p
+          id="accidental-detector-status"
+          class="detector-status"
+          aria-live="polite"
+        >
+          Waiting for detector events.
+        </p>
+        <button id="begin-activity" class="primary">
+          Start recording (60 sec)
+        </button>
+        <button id="stop-activity" class="secondary" disabled>
+          Stop activity
+        </button>
+      </section>
 
-        <button type="submit" class="primary">Start study →</button>
-      </form>
-    </section>
+      <!-- 3. Show a provisional summary, not a file-save confirmation -->
+      <section id="results-screen" class="screen card" hidden>
+        <h2>Test summary</h2>
+        <div id="summary"></div>
+        <h3>Detailed session statistics</h3>
+        <div id="session-statistics"></div>
+        <span class="chip">FINISHED</span>
+        <h2>Test summary</h2>
+        <div id="summary"></div>
+        <p class="muted">
+          Events are saved locally in this browser. Use Export CSV to download a
+          copy.
+        </p>
+        <button id="new-test" class="primary">Set up another test</button>
+      </section>
+    </main>
 
-    <!-- Keep these IDs: Alexandros's existing main.js uses #start and #status -->
-    
-  <section id="sensor-panel" class="card" hidden>
-    <h2>Motion sensors</h2>
-
-    <button id="start" type="button">
-      Enable motion sensors
-    </button>
-
-    <p id="status" aria-live="polite">
-      Not enabled yet
-    </p>
-  </section>
-
-
-    <!-- 2A. Accuracy test -->
-    <section id="accuracy-screen" class="screen card" hidden>
-      <span class="chip">ACCURACY</span>
-      <h2 id="accuracy-title">Toss test</h2>
-      <p id="accuracy-participant" class="muted"></p>
-      <p>
-    Ask the participant to perform one intentional gesture
-    per attempt. A recognized gesture counts automatically
-    and advances to the next attempt. If nothing is
-    recognized, press Missed.
-    </p>
-      <div class="metrics">
-        <div><span>Attempt</span><strong id="trial-number">1 / 10</strong></div>
-        <div><span>Correct detections</span><strong id="accuracy-correct">0</strong></div>
-      </div>
-      <p id="trial-message" class="message">Ready for first attempt.</p>
-      <p id="accuracy-detector-status" class="detector-status" aria-live="polite">Waiting for the first detector event.</p>
-      <button id="finish-trial" class="secondary" disabled>Missed — no detection</button>
-      <button id="invalidate-trial" class="text-button" disabled>Attempt not completed — retry</button>
-    </section>
-
-    <!-- 2B. Accidental activation test -->
-    <section id="accidental-screen" class="screen card" hidden>
-      <span class="chip">ACCIDENTAL ACTIVATION</span>
-      <h2 id="activity-title">Walking with phone</h2>
-      <p id="activity-participant" class="muted"></p>
-      <p>Ask the participant to do this activity normally, <strong>without deliberately performing either gesture</strong>.</p>
-      <div class="clock" id="activity-clock">01:00</div>
-      <p class="muted center">Both detectors are monitored for 60 seconds once recording starts.</p>
-      <p id="recording-state" class="recording-state" aria-live="polite">Not recording yet — tap Start recording.</p>
-      <div class="metrics">
-        <div><span>False toss detections</span><strong id="toss-count">0</strong></div>
-        <div><span>False flick detections</span><strong id="flick-count">0</strong></div>
-      </div>
-      <p id="accidental-detector-status" class="detector-status" aria-live="polite">Waiting for detector events.</p>
-      <button id="begin-activity" class="primary">Start recording (60 sec)</button>
-      <button id="stop-activity" class="secondary" disabled>Stop activity</button>
-    </section>
-
-    <!-- 3. Show a provisional summary, not a file-save confirmation -->
-    <section id="results-screen" class="screen card" hidden>
-      <h2>Test summary</h2>
-      <div id="summary"></div>
-      <h3>Detailed session statistics</h3>
-      <div id="session-statistics"></div>
-      <span class="chip">FINISHED</span>
-      <h2>Test summary</h2>
-      <div id="summary"></div>
-      <p class="muted">
-        Events are saved locally in this browser.
-        Use Export CSV to download a copy.
-      </p>
-      <button id="new-test" class="primary">Set up another test</button>
-    </section>
-  </main>
-
-  <script src="scripts/logger.js"></script>
-  <script src="scripts/export.js"></script>
-  <script src="scripts/statistics.js"></script>
-  <script src="scripts/recovery.js"></script>
-  <script type="module" src="scripts/main.js"></script>
-  <script type="module" src="scripts/study-ui.js"></script>
-</body>
+    <script src="scripts/logger.js"></script>
+    <script src="scripts/export.js"></script>
+    <script src="scripts/statistics.js"></script>
+    <script src="scripts/recovery.js"></script>
+    <script type="module" src="scripts/main.js"></script>
+    <script type="module" src="scripts/study-ui.js"></script>
+  </body>
 </html>
