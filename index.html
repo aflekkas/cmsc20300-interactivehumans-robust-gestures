@@ -24,7 +24,6 @@
       <button id="view-stats" type="button" class="secondary">
         View saved statistics
       </button>
-      <p id="view-stats" class="muted"></p>
 
       <section id="all-results" class="card" hidden>
         <h2>Overall study statistics</h2>
@@ -83,8 +82,6 @@
         </form>
       </section>
 
-      <!-- Keep these IDs: Alexandros's existing main.js uses #start and #status -->
-
       <section id="sensor-panel" class="card" hidden>
         <h2>Motion sensors</h2>
 
@@ -93,95 +90,164 @@
         <p id="status" aria-live="polite">Not enabled yet</p>
       </section>
 
-      <!-- 2A. Accuracy test -->
-      <section id="accuracy-screen" class="screen card" hidden>
-        <span class="chip">ACCURACY</span>
-        <h2 id="accuracy-title">Toss test</h2>
-        <p id="accuracy-participant" class="muted"></p>
-        <p>
-          Ask the participant to perform one intentional gesture per attempt. A
-          recognized gesture counts automatically and advances to the next
-          attempt. If nothing is recognized, press Missed.
-        </p>
-        <div class="metrics">
-          <div>
-            <span>Attempt</span><strong id="trial-number">1 / 10</strong>
-          </div>
-          <div>
-            <span>Correct detections</span
-            ><strong id="accuracy-correct">0</strong>
-          </div>
-        </div>
-        <p id="trial-message" class="message">Ready for first attempt.</p>
-        <p
-          id="accuracy-detector-status"
-          class="detector-status"
-          aria-live="polite"
-        >
-          Waiting for the first detector event.
-        </p>
-        <button id="finish-trial" class="secondary" disabled>
-          Missed — no detection
-        </button>
-        <button id="invalidate-trial" class="text-button" disabled>
-          Attempt not completed — retry
-        </button>
-      </section>
-
-      <!-- 2B. Accidental activation test -->
+      <!-- Accidental activation screen -->
       <section id="accidental-screen" class="screen card" hidden>
         <span class="chip">ACCIDENTAL ACTIVATION</span>
-        <h2 id="activity-title">Walking with phone</h2>
+        <h2>Everyday phone use</h2>
         <p id="activity-participant" class="muted"></p>
         <p>
-          Ask the participant to do this activity normally,
-          <strong>without deliberately performing either gesture</strong>.
+          Use your phone the way you normally would while we give you a few
+          instructions.
         </p>
-        <div class="clock" id="activity-clock">01:00</div>
-        <p class="muted center">
-          Both detectors are monitored for 60 seconds once recording starts.
-        </p>
+        <div class="clock" id="activity-clock">02:00</div>
         <p id="recording-state" class="recording-state" aria-live="polite">
           Not recording yet — tap Start recording.
         </p>
-        <div class="metrics">
-          <div>
-            <span>False toss detections</span><strong id="toss-count">0</strong>
-          </div>
-          <div>
-            <span>False flick detections</span
-            ><strong id="flick-count">0</strong>
-          </div>
-        </div>
-        <p
-          id="accidental-detector-status"
-          class="detector-status"
-          aria-live="polite"
-        >
-          Waiting for detector events.
-        </p>
         <button id="begin-activity" class="primary">
-          Start recording (60 sec)
+          Start recording (2 min)
         </button>
         <button id="stop-activity" class="secondary" disabled>
           Stop activity
         </button>
       </section>
 
-      <!-- 3. Show a provisional summary, not a file-save confirmation -->
+      <!-- Accuracy test screens -->
+      <section id="accuracy-screen" class="screen card" hidden>
+        <span class="chip">ACCURACY</span>
+        <h2 id="accuracy-title">Toss test</h2>
+        <p id="accuracy-participant" class="muted"></p>
+        <p>
+          Do the gesture once, then tap the button below. Repeat until all
+          attempts are done.
+        </p>
+        <div class="metrics">
+          <div>
+            <span>Attempt</span><strong id="trial-number">1 / 10</strong>
+          </div>
+        </div>
+        <p id="trial-message" class="message">Ready for first attempt.</p>
+        <button id="finish-trial" class="primary" disabled>
+          I did the gesture
+        </button>
+        <button id="invalidate-trial" class="text-button" disabled>
+          Redo this attempt (researcher)
+        </button>
+      </section>
+
+      <!-- Gesture into demo video screen -->
+      <section id="intro-screen" class="screen card" hidden>
+        <span class="chip">NEW GESTURE</span>
+        <h2 id="intro-title">Toss gesture</h2>
+        <p id="intro-scenario"></p>
+        <video id="demo-video" playsinline controls muted></video>
+        <button id="start-attempts" class="primary">Start 10 attempts</button>
+      </section>
+
+      <!-- Post-study survey screen -->
+      <section id="survey-screen" class="screen card" hidden>
+        <span class="chip">SURVEY</span>
+        <h2>A few last questions</h2>
+        <form id="survey-form">
+          <fieldset>
+            <legend>
+              To wipe all your open tabs, which gesture would you rather use?
+            </legend>
+            <label
+              ><input type="radio" name="q_rather_use" value="toss" required />
+              Toss</label
+            >
+            <label
+              ><input type="radio" name="q_rather_use" value="flick" />
+              Flick</label
+            >
+            <label
+              ><input type="radio" name="q_rather_use" value="neither" />
+              Neither</label
+            >
+          </fieldset>
+
+          <fieldset>
+            <legend>Which gesture did you prefer performing?</legend>
+            <label
+              ><input type="radio" name="q_preferred" value="toss" required />
+              Toss</label
+            >
+            <label
+              ><input type="radio" name="q_preferred" value="flick" />
+              Flick</label
+            >
+            <label
+              ><input type="radio" name="q_preferred" value="no_preference" />
+              No preference</label
+            >
+          </fieldset>
+
+          <fieldset>
+            <legend>Which gesture is more likely to go off by accident?</legend>
+            <label
+              ><input
+                type="radio"
+                name="q_more_accidental"
+                value="toss"
+                required
+              />
+              Toss</label
+            >
+            <label
+              ><input type="radio" name="q_more_accidental" value="flick" />
+              Flick</label
+            >
+            <label
+              ><input type="radio" name="q_more_accidental" value="same" />
+              About the same</label
+            >
+          </fieldset>
+
+          <fieldset>
+            <legend>Would you actually use the toss gesture?</legend>
+            <label
+              ><input
+                type="radio"
+                name="q_would_use_toss"
+                value="yes"
+                required
+              />
+              Yes</label
+            >
+            <label
+              ><input type="radio" name="q_would_use_toss" value="no" />
+              No</label
+            >
+          </fieldset>
+
+          <fieldset>
+            <legend>Would you actually use the flick gesture?</legend>
+            <label
+              ><input
+                type="radio"
+                name="q_would_use_flick"
+                value="yes"
+                required
+              />
+              Yes</label
+            >
+            <label
+              ><input type="radio" name="q_would_use_flick" value="no" />
+              No</label
+            >
+          </fieldset>
+
+          <button type="submit" class="primary">Submit answers</button>
+        </form>
+      </section>
+
+      <!-- Results Screen -->
       <section id="results-screen" class="screen card" hidden>
+        <span class="chip">FINISHED</span>
         <h2>Test summary</h2>
         <div id="summary"></div>
         <h3>Detailed session statistics</h3>
         <div id="session-statistics"></div>
-        <span class="chip">FINISHED</span>
-        <h2>Test summary</h2>
-        <div id="summary"></div>
-        <p class="muted">
-          Events are saved locally in this browser. Use Export CSV to download a
-          copy.
-        </p>
-        <button id="new-test" class="primary">Set up another test</button>
       </section>
     </main>
 

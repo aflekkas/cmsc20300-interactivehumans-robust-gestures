@@ -63,13 +63,17 @@ function reportFlick({ at, direction, duration }) {
     timestamp_ms: at,
     source: "detector",
     direction,
-    duration_ms: duration
+    duration_ms: duration,
   };
-  window.dispatchEvent(new CustomEvent("gesture-detected", { detail: detection }));
+  window.dispatchEvent(
+    new CustomEvent("gesture-detected", { detail: detection }),
+  );
   console.debug("[flick.js] dispatched gesture-detected", detection);
 
-  if (document.body.dataset.studyPhase !== "accidental") {
+  /*  if (document.body.dataset.studyPhase !== "accidental") {
     document.body.style.background = "blue";
     setTimeout(() => { document.body.style.background = ""; }, 1000);
   }
+    */
+  // completely remove the color changes
 }

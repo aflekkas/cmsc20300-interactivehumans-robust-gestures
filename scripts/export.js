@@ -31,15 +31,76 @@ function getSavedEvents() {
 function csvCell(value) {
   if (value === null || value === undefined) return '""';
 
-  const text = typeof value === "object" ? JSON.stringify(value) : String(value);
+  const text =
+    typeof value === "object" ? JSON.stringify(value) : String(value);
 
   // prevent text from being interpreted as a spreadsheet formula
-  const safe = typeof value === "string" && /^\s*[=+\-@]/.test(text) ? "'" + text : text;
+  const safe =
+    typeof value === "string" && /^\s*[=+\-@]/.test(text) ? "'" + text : text;
 
   return `"${safe.replace(/"/g, '""')}"`;
 }
 
-// convert all saved events into a CSV and download it
+// convert the given events into a CSV and download it
+function exportCSV(events, filename) {
+  // identify sessions with a recorded session_end event.
+  const completedSessions = new Set(
+    events
+      .filter((e) => e.event_type === "session_end")
+      .map((e) => e.session_id),
+  );
+
+  // include every field present in any event -> flexible for further changes
+  const columns = [
+    "timestamp_iso",
+    "session_status",
+    ...new Set(events.flatMap((event) => Object.keys(event))),
+  ];
+
+  const rows = [
+    columns.map(csvCell).join(","),
+    ...events.map((event) =>
+      columns
+        .map((column) => {
+          let value = event[column];
+
+          if (column === "timestamp_iso") {
+            value = new Date(event.timestamp_ms).toISOString();
+          }
+
+          if (column === "session_status") {
+            value = completedSessions.has(event.session_id)
+              ? "complete"
+              : "incomplete";
+          }
+          return csvCell(value);
+        })
+        .join(","),
+    ),
+  ];
+
+  const csv = rows.join("\r\n");
+
+  // create the CSV file in memory
+  const blob = new Blob(["\uFEFF", csv], {
+    type: "text/csv;charset=utf-8;",
+  });
+
+  const url = URL.createObjectURL(blob);
+
+  // ask the browser to download the file
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+}
+
+// export every saved event
 exportButton.addEventListener("click", () => {
   try {
     const events = getSavedEvents();
@@ -49,54 +110,7 @@ exportButton.addEventListener("click", () => {
       return;
     }
 
-    // Identify sessions with a recorded session_end event.
-    const completedSessions = new Set(events.filter(e => e.event_type === "session_end").map(e => e.session_id));
-
-    // include every field present in any event -> flexible for further changes
-    const columns = [
-      "timestamp_iso",
-      "session_status",
-      ...new Set(events.flatMap(event => Object.keys(event)))
-    ];
-
-    const rows = [
-      columns.map(csvCell).join(","),
-      ...events.map(event =>
-        columns.map(column => {
-          let value = event[column];
-
-          if (column === "timestamp_iso") {
-            value = new Date(event.timestamp_ms).toISOString();
-          }
-
-          if (column === "session_status") {
-            value = completedSessions.has(event.session_id) ? "complete" : "incomplete";
-          }
-          return csvCell(value);
-        }).join(",")
-      )
-    ];
-
-    const csv = rows.join("\r\n");
-
-    // create the CSV file in memory
-    const blob = new Blob(["\uFEFF", csv], {
-      type: "text/csv;charset=utf-8;"
-    });
-
-    const url = URL.createObjectURL(blob);
-
-    // ask the browser to download the file
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `hci-study-events-${Date.now()}.csv`;
-
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-
-    setTimeout(() => URL.revokeObjectURL(url), 60000);
-
+    exportCSV(events, `hci-study-events-${Date.now()}.csv`);
     exportStatus.textContent = `Export requested: ${events.length} events. Check Downloads.`;
   } catch (error) {
     console.error("CSV export failed:", error);

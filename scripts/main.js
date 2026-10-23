@@ -41,4 +41,6 @@ startButton.addEventListener("click", async () => {
   if (!(await getPermissions())) return; // if permissions are not granted, exit
 
   window.addEventListener("devicemotion", handleMotion); // start listening for motion
+  startButton.disabled = true;
+  window.dispatchEvent(new Event("sensors-ready")); // lets study-ui.js unlock Start study
 });

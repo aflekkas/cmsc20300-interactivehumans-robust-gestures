@@ -18,21 +18,15 @@ export function tossUpdate(totalForce) {
       lastTossAt = now;
       tossStartedAt = null;
 
-      // NEW: notifing UI that a toss gesture was detected
+      // notifing UI that a toss gesture was detected
       const detection = { gesture: "toss", timestamp_ms: now, source: "detector" };
 
-      // Only flash when an accuracy attempt is active.
-      const showFlash = document.body.dataset.studyPhase === "accuracy";
+      // No longer flash because this would alert the user (we don't want that)
+      // const showFlash = document.body.dataset.studyPhase === "accuracy";
 
       window.dispatchEvent(new CustomEvent("gesture-detected", { detail: detection }));
 
       console.debug("[toss.js] dispatched gesture-detected", detection);
-
-      if (showFlash) {
-        document.body.style.background = "red";
-        setTimeout(() => { document.body.style.background = ""; }, 1000);
-      }
-
     }
   } else {
     tossStartedAt = null;
